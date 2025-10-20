@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import ItemList from "./ItemList";
+import ItemForm from "./ItemForm";
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/items")
+      .then(res => res.json())
+      .then(data => setItems(data));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Lista de Itens</h1>
+      <ItemForm onAdd={setItems} />
+      <ItemList items={items} />
     </div>
   );
 }
-
 export default App;
